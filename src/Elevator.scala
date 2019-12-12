@@ -1,17 +1,11 @@
 import scala.collection.mutable
 
-class Elevator(var currentFloor: Int, var desiredFloor: Int, index: Int) {
-  def draw(index: Int): String = {
-    if (index == currentFloor) s"|${index}|" else "|"
-  }
+class Elevator(var currentFloor: Int, var desiredFloor: Int, val elevatorNumber: Int) {
+  def draw(index: Int): String =
+    if (index == currentFloor) s"${elevatorNumber}" else " "
 
+  def simulate = if (currentFloor != desiredFloor) move
 
-  def simulate = {
-    if (currentFloor != desiredFloor) move
-  }
-
-  def move = {
-    if (currentFloor < desiredFloor) currentFloor += 1
-    else currentFloor -= 1
-  }
+  def move =
+    currentFloor += (if (currentFloor < desiredFloor) 1 else -1)
 }
