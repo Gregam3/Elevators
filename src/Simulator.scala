@@ -1,8 +1,5 @@
-
-
 import scala.collection.mutable
 import scala.collection.mutable.{ListBuffer, Map}
-import scala.collection.parallel.immutable
 import scala.sys.process._
 import scala.util.Random
 
@@ -61,7 +58,7 @@ object Simulator {
   }
 
   private[this] def formatPassengers(floorPassengers: Map[Int, ListBuffer[Passenger]], index: Int): String = {
-    if (!floorPassengers.keys.exists(_ == index)) " " else floorPassengers(index).map(_ => Passenger.FACE).mkString
+    if (!floorPassengers.keys.exists(_ == index)) " " else floorPassengers(index).map(_ => Passenger.FACE_AWAIT).mkString
   }
 
 }
