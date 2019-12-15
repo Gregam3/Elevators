@@ -32,7 +32,7 @@ object Simulator {
 
   def generatePassengers = {
     mutable.Map(
-      1.to(25).map(_ => new Passenger(randomFloor, randomFloor))
+      1.to(10).map(_ => new Passenger(randomFloor, randomFloor))
         .groupBy(_.floor)
         .to: _*
     ).map(e => e._1 -> e._2.to[ListBuffer])
@@ -50,16 +50,18 @@ object Simulator {
           passengers.remove(el.currentFloor)
           el.setNextDestination
 
-          if(el.state == ElevatorState.WAITING) {
-            val firstPassengerIndex = passengers.keys.head
-            el.desiredFloor = passengers(firstPassengerIndex).head.floor
-            passengers.remove(firstPassengerIndex)
+          if(el.state == ElevatorState.WAITING && passengers.nonEmpty) {
+            val passengerIndex = passengers.head._1
+
+            el.desiredFloor = passengers(passengerIndex).head.floor
+            passengers.remove(passengerIndex)
           }
         }
+        if(Random.nextFloat() > 0.95) passengers++=generatePassengers
       })
 
       printElevators(elevators)
-      Thread.sleep(1000)
+      Thread.sleep(500)
     }
   }
 
