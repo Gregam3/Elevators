@@ -9,8 +9,6 @@ object Simulator {
   val ELEVATOR_FORMAT = "%10s"
   val P_FORMAT_NUM = 12
 
-  var passengers: Map[Int, ListBuffer[Passenger]] = generatePassengers
-
   def randomFloor = {
     Random.nextInt(FLOORS - 1) + 1
   }
@@ -22,7 +20,7 @@ object Simulator {
     //TODO remove individual indexes
     0.until(FLOORS).foreach(i => {
       print(String.format(ELEVATOR_FORMAT * 2, elves(0).draw(i), elves(1).draw(i)))
-      print(s"  Ԥ${String.format(s"%${P_FORMAT_NUM}s", formatPassengers(passengers, i))}Ԥ  ")
+      print(s"  Ԥ${String.format(s"%${P_FORMAT_NUM}s", formatPassengers(ElevatorController.waitingPassengers, i))}Ԥ  ")
       println(String.format(ELEVATOR_FORMAT * 2, elves(2).draw(i), elves(3).draw(i)))
     })
 
@@ -38,35 +36,20 @@ object Simulator {
     ).map(e => e._1 -> e._2.to[ListBuffer])
   }
 
-  def runSimulation(elevators: ListBuffer[ElevatorCar]) {
+  def runSimulation() {
     var timeSteps = 0
     while (true) {
       timeSteps += 1
-      elevators.foreach(el => {
-        el.simulate
-        if (passengers.keys.exists(_ == el.currentFloor)) {
-          passengers(el.currentFloor)
-          elevators(el.index).passengers = passengers(el.currentFloor)
-          passengers.remove(el.currentFloor)
-          el.setNextDestination
+      ElevatorController.run()
 
-          if(el.state == ElevatorState.WAITING && passengers.nonEmpty) {
-            val passengerIndex = passengers.head._1
+      if (Random.nextFloat() > 0.95) ElevatorController.waitingPassengers ++= generatePassengers
 
-            el.desiredFloor = passengers(passengerIndex).head.floor
-            passengers.remove(passengerIndex)
-          }
-        }
-        if(Random.nextFloat() > 0.95) passengers++=generatePassengers
-      })
-
-      printElevators(elevators)
-      Thread.sleep(500)
+      printElevators(ElevatorController.elevators)
+      Thread.sleep(1000)
     }
   }
 
   private[this] def formatPassengers(floorPassengers: Map[Int, ListBuffer[Passenger]], index: Int): String = {
     if (!floorPassengers.keys.exists(_ == index)) " " else floorPassengers(index).map(_ => Passenger.FACE_AWAIT).mkString
   }
-
 }
