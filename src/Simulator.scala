@@ -6,7 +6,7 @@ import scala.util.Random
 object Simulator {
   val FLOORS = 12
   val ELEVATOR_COUNT = 4
-  val ELEVATOR_FORMAT = "%10s"
+  val ELEVATOR_FORMAT = "%15s"
   val P_FORMAT_NUM = 12
 
   def randomFloor = {
@@ -28,9 +28,9 @@ object Simulator {
     "clear".!!
   }
 
-  def generatePassengers = {
+  def generatePassengers(passengerCount: Int) = {
     mutable.Map(
-      1.to(10).map(_ => new Passenger(randomFloor, randomFloor))
+      1.to(passengerCount).map(_ => new Passenger(randomFloor, randomFloor))
         .groupBy(_.floor)
         .to: _*
     ).map(e => e._1 -> e._2.to[ListBuffer])
@@ -42,7 +42,7 @@ object Simulator {
       timeSteps += 1
       ElevatorController.run()
 
-      if (Random.nextFloat() > 0.95) ElevatorController.waitingPassengers ++= generatePassengers
+      if (Random.nextFloat() > 0.5) ElevatorController.waitingPassengers ++= generatePassengers(Random.nextInt(3))
 
       printElevators(ElevatorController.elevators)
       Thread.sleep(1000)
