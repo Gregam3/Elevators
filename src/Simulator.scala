@@ -8,6 +8,7 @@ object Simulator {
   val ELEVATOR_COUNT = 4
   val ELEVATOR_FORMAT = "%15s"
   val P_FORMAT_NUM = 12
+  var timeSteps = 0f
 
   def randomFloor = {
     Random.nextInt(FLOORS - 1) + 1
@@ -24,7 +25,8 @@ object Simulator {
       println(String.format(ELEVATOR_FORMAT * 2, elves(2).draw(i), elves(3).draw(i)))
     })
 
-    println
+    println(s"Offboarded=${ElevatorController.passengersOffboarded} timesteps=$timeSteps " +
+      s"Throughput = ${ElevatorController.passengersOffboarded / timeSteps}")
     "clear".!!
   }
 
@@ -37,7 +39,7 @@ object Simulator {
   }
 
   def runSimulation() {
-    var timeSteps = 0
+
     while (true) {
       timeSteps += 1
       ElevatorController.run()
@@ -45,7 +47,7 @@ object Simulator {
       if (Random.nextFloat() > 0.5) ElevatorController.waitingPassengers ++= generatePassengers(Random.nextInt(3))
 
       printElevators(ElevatorController.elevators)
-      Thread.sleep(1000)
+      Thread.sleep(0)
     }
   }
 
