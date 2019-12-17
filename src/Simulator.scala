@@ -40,7 +40,7 @@ object Simulator {
 
   def runSimulation() {
 
-    while (true) {
+    while (timeSteps < 5000) {
       timeSteps += 1
       ElevatorController.run()
 

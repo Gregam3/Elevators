@@ -23,12 +23,6 @@ object ElevatorController {
     })
   }
 
-  def nextDestination(elevator: ElevatorCar) = {
-    //TODO figure out why underscore does not yield same output as df => df
-    if (elevator.passengers.nonEmpty) elevator.desiredFloor = elevator.passengers.map(_.desiredFloor).maxBy(df => df)
-    else findPassengers(elevator)
-  }
-
   def passengersAreOnFloor(floor: Int) = waitingPassengers.keys.exists(_ == floor)
 
   def onBoardPassenger(elevator: ElevatorCar) = {
