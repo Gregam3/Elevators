@@ -11,7 +11,8 @@ class ElevatorCar(var floor: Int, var desiredFloor: Int, val index: Int) {
 
   def updateDesiredFloor: Unit = {
     if (passengers.isEmpty) state = ElevatorState.WAITING
-    else desiredFloor = passengers.map(_.desiredFloor).sum / passengers.size
+    else if(floor == 11) desiredFloor = 0 else if(floor == 0) desiredFloor = 11
+    else if(desiredFloor == null) desiredFloor = 0
   }
 
   def draw(floorIndex: Int): String = if (floorIndex == floor) s"${index + 1}|${Passenger.FACE_AWAIT * passengers.size}|" else " "

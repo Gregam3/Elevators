@@ -47,7 +47,7 @@ object Simulator {
       if (Random.nextFloat() > 0.5) ElevatorController.waitingPassengers ++= generatePassengers(Random.nextInt(3))
 
       printElevators(ElevatorController.elevators)
-      Thread.sleep(0)
+      Thread.sleep(500)
     }
   }
 
