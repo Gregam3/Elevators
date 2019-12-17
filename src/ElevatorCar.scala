@@ -11,7 +11,7 @@ class ElevatorCar(var floor: Int, var desiredFloor: Int, val index: Int) {
 
   def updateDesiredFloor: Unit = {
     if (passengers.isEmpty) state = ElevatorState.WAITING
-    else desiredFloor = passengers.maxBy(p => Math.abs(p.desiredFloor - floor)).desiredFloor
+    else desiredFloor = Simulator.randomFloor
   }
 
   def draw(floorIndex: Int): String = if (floorIndex == floor) s"${index + 1}|${Passenger.FACE_AWAIT * passengers.size}|" else " "
