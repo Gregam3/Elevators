@@ -36,3 +36,6 @@ Go to the top floor and then the bottom floor and repeat, regardless of passenge
 
 ###### Throughput = 0.3866
 
+### Most popular floor
+Strategy works great, so well that simulation must be changed to provide more passengers
+

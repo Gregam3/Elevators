@@ -39,15 +39,13 @@ object Simulator {
   }
 
   def runSimulation() {
-
     while (timeSteps < 5000) {
       timeSteps += 1
       ElevatorController.run()
-
-      if (Random.nextFloat() > 0.5) ElevatorController.waitingPassengers ++= generatePassengers(Random.nextInt(3))
+      ElevatorController.waitingPassengers ++= generatePassengers(Random.nextInt(10))
 
       printElevators(ElevatorController.elevators)
-      Thread.sleep(500)
+      Thread.sleep(0)
     }
   }
 
