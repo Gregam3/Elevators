@@ -14,13 +14,17 @@ object ElevatorController {
 
   def run() = {
     elevators.foreach(elevator => {
-      if (passengersAreOnFloor(elevator.floor)) onBoardPassenger(elevator)
-      else if (elevator.desiredFloor == elevator.floor) offBoardPassenger(elevator)
+      if (passengersAreOnFloor(elevator.floor) && elevator.capacity > elevator.passengers.size) onBoardPassenger(elevator)
+      else if (hasPassengerDestinationOnFloor(elevator)) offBoardPassenger(elevator)
       else if (elevator.passengers.nonEmpty) elevator.state = ElevatorState.MOVING
       else elevator.state = ElevatorState.WAITING
 
       elevator.run
     })
+  }
+
+  def hasPassengerDestinationOnFloor(elevator: ElevatorCar) = {
+    elevator.passengers.exists(_.desiredFloor == elevator.floor)
   }
 
   def passengersAreOnFloor(floor: Int) = waitingPassengers.keys.exists(_ == floor)
