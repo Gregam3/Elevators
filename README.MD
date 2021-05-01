@@ -10,6 +10,12 @@ regardless of when they entered the elevator
 
 ###### Throughput = 0.346
 
+
+### Most popular floor
+Strategy works great, so well that simulation must be changed to provide more passengers
+
+###### Throughput = 0.49
+
 ## Funny but horrible strategies
 
 ### Deliver to furthest floor
@@ -35,7 +41,4 @@ Gets stuck with too many passengers
 Go to the top floor and then the bottom floor and repeat, regardless of passenger destination
 
 ###### Throughput = 0.3866
-
-### Most popular floor
-Strategy works great, so well that simulation must be changed to provide more passengers
 
